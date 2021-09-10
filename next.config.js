@@ -21,8 +21,8 @@ module.exports = (phase) => {
       ignoreDuringBuilds: true,
     },
     env: {
-      baseUrl: "http://localhost:5001/api/v1",
-      NEXT_PUBLIC_BACKEND_URL: "http://localhost:5001/api/v1",
+      baseUrl: "https://failurestory.herokuapp.com/api/v1",
+      NEXT_PUBLIC_BACKEND_URL: "https://failurestory.herokuapp.com/api/v1",
     },
   };
 };
