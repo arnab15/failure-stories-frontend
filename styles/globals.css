@@ -14,3 +14,27 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* .ce-block__content,
+.ce-toolbar__content {
+  max-width: unset;
+} */
+.ce-block h1 {
+  font-size: xx-large;
+  font-weight: 700;
+}
+.ce-block h2 {
+  font-size: x-large;
+  font-weight: 700;
+}
+.ce-block h3 {
+  font-size: large;
+  font-weight: 600;
+}
+/* .ce-header {
+  
+} */
+
+#nprogress .bar {
+  background: #66de93 !important;
+}
