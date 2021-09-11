@@ -96,9 +96,9 @@ function ArticalCard({ story }) {
                           width="4"
                           // src="https://i.pravatar.cc/300"
                           src={
-                            !story.author.imgUrl
+                            !story.author.profilePic
                               ? `https://avatars.dicebear.com/api/avataaars/${story.author.name}.svg`
-                              : story.author.imgUrl
+                              : story.author.profilePic
                           }
                         />
                       </Box>

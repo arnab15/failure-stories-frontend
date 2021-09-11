@@ -17,9 +17,9 @@ function ProfileCard({ story, openDrawer }) {
         <Box>
           <Avatar
             src={
-              !story.author.imgUrl
+              !story.author.profilePic
                 ? `https://avatars.dicebear.com/api/avataaars/${story.author.name}.svg?mood[]=happy`
-                : story.author.imgUrl
+                : story.author.profilePic
             }
           />
         </Box>
