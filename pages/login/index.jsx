@@ -27,6 +27,7 @@ import LoginWithGoogle from "../../Components/LoginWithGoogle/LoginWithGoogle";
 function Login() {
   const { setCurrentUser, currentUser } = useAuth();
   const router = useRouter();
+
   if (currentUser) {
     if (typeof window !== "undefined") {
       if (router.query && router.query.from) {
@@ -67,8 +68,9 @@ function Login() {
       actions.setSubmitting(false);
       actions.resetForm();
 
-      if (router.query && router.query.from) {
-        router.replace(router.query.from);
+      if (router.query && router.query.from && router.query.from !== "/login") {
+        // router.replace(router.query.from);
+        window.location.pathname = router.query.from;
       }
     } catch (error) {
       actions.setSubmitting(false);

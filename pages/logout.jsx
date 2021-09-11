@@ -1,6 +1,8 @@
 import { useRouter } from "next/dist/client/router";
+import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { useAuth } from "../context/AuthContextProvider";
+import withProtectedRoute from "../hoc/withProtectedRoute";
 import authService from "../services/authService";
 
 function Logout() {
@@ -31,4 +33,6 @@ function Logout() {
   return null;
 }
 
-export default Logout;
+export default dynamic(() => Promise.resolve(withProtectedRoute(Logout)), {
+  ssr: false,
+});
