@@ -7,7 +7,9 @@ import Navbar from "../Navbar/NavBar";
 function Layout({ children }) {
   return (
     <Box>
-      <Navbar>{children}</Navbar>
+      <Navbar>
+        <Box mt="65px">{children}</Box>
+      </Navbar>
     </Box>
   );
 }

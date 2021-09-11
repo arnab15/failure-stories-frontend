@@ -61,24 +61,34 @@ export default function Navbar({ children }) {
 
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+      <Box
+        bg={useColorModeValue("white", "gray.900")}
+        boxShadow="md"
+        px={4}
+        width="100%"
+        position="fixed"
+        top="0"
+        zIndex="sticky"
+      >
         <Flex h={16} alignItems="center" justifyContent="space-between">
-          <IconButton
+          {/* <IconButton
             size="md"
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label="Open Menu"
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
-          />
+          /> */}
           <HStack spacing={8} alignItems="center">
-            <Box>Logo</Box>
-            <HStack as="nav" spacing={4} display={{ base: "none", md: "flex" }}>
+            <NextLink href="/">
+              <Box>Logo</Box>
+            </NextLink>
+            {/* <HStack as="nav" spacing={4} display={{ base: "none", md: "flex" }}>
               {Links.map(({ name, path }) => (
                 <NavLink key={name} path={path}>
                   {name}
                 </NavLink>
               ))}
-            </HStack>
+            </HStack> */}
           </HStack>
           <Flex alignItems="center">
             {currentUser ? (
@@ -208,7 +218,7 @@ export default function Navbar({ children }) {
             )}
           </Flex>
         </Flex>
-
+        {/* 
         {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>
             <Stack as="nav" spacing={4}>
@@ -219,10 +229,11 @@ export default function Navbar({ children }) {
               ))}
             </Stack>
           </Box>
-        ) : null}
+        ) : null} */}
       </Box>
-
-      <Box>{children}</Box>
+      <Box position="relative" zIndex={1}>
+        {children}
+      </Box>
     </>
   );
 }

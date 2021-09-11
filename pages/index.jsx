@@ -10,15 +10,38 @@ import {
   Badge,
   Divider,
   Button,
+  Skeleton,
 } from "@chakra-ui/react";
 import React from "react";
 import Link from "next/dist/client/link";
+import Router from "next/router";
 import ArticalCard from "../Components/ArticalCard/ArticalCard";
 
 export default function Home({ data }) {
+  const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const start = () => {
+      console.log("start");
+      setLoading(true);
+    };
+    const end = () => {
+      console.log("findished");
+      setLoading(false);
+    };
+    Router.events.on("routeChangeStart", start);
+    Router.events.on("routeChangeComplete", end);
+    Router.events.on("routeChangeError", end);
+    return () => {
+      Router.events.off("routeChangeStart", start);
+      Router.events.off("routeChangeComplete", end);
+      Router.events.off("routeChangeError", end);
+    };
+  }, []);
+
   console.log("data", data);
   return (
-    <Box mx={["0", "0", "8%"]}>
+    <Box mx={["0", "0", "8%"]} mt="66px">
       <SimpleGrid
         // columns={["1", "1", "2"]}
         spacing={2}
@@ -35,7 +58,9 @@ export default function Home({ data }) {
           </Text>
           <Stack spacing="6">
             {data.map((story) => (
-              <ArticalCard key={story._id} story={story} />
+              <Skeleton isLoaded={!loading}>
+                <ArticalCard key={story._id} story={story} />
+              </Skeleton>
             ))}
           </Stack>
         </Box>

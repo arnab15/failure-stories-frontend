@@ -51,8 +51,8 @@ function ArticalCard({ story }) {
               justifyContent="space-evenly"
             >
               <Box pb="0.5">
-                <Badge rounded="sm" colorScheme="gray" fontSize="x-small">
-                  <Text>Relationship Fail</Text>
+                <Badge rounded="sm" colorScheme="red" fontSize="x-small">
+                  <Text p="0.5">Rejected in Career</Text>
                 </Badge>
               </Box>
               <Box>
