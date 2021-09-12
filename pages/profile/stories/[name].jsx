@@ -8,6 +8,7 @@ import {
   TabPanels,
   Tabs,
   Text,
+  Skeleton,
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
@@ -22,14 +23,21 @@ function Story(props) {
   const [currentPage, setCurrentPage] = useState();
   const [tabIndex, setTabIndex] = useState(0);
   const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { name } = router.query;
+
   const getUserStories = async (published) => {
-    const { data } = await userService.getUserStories({
-      published,
-    });
-    setStories(data);
-    console.log("stories", data);
+    try {
+      setLoading(true);
+      const { data } = await userService.getUserStories({
+        published,
+      });
+      setStories(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   const handelStoryDelete = async (storyId) => {
@@ -94,72 +102,74 @@ function Story(props) {
           </Link>
         </Flex>
       </Flex>
-      <Tabs index={tabIndex}>
-        <TabList>
-          <Tab _focus={{ boxShadow: "none" }}>
-            <Link
-              href={{
-                pathname: "/profile/stories/[name]",
-                query: { name: "unpublished" },
-              }}
-            >
-              Unpublished
-            </Link>
-          </Tab>
-          <Tab _focus={{ boxShadow: "none" }}>
-            <Link
-              href={{
-                pathname: "/profile/stories/[name]",
-                query: { name: "published" },
-              }}
-            >
-              Published
-            </Link>
-          </Tab>
-          <Tab _focus={{ boxShadow: "none" }}>
-            <Link
-              href={{
-                pathname: "/profile/stories/[name]",
-                query: { name: "replies" },
-              }}
-            >
-              Replies
-            </Link>
-          </Tab>
-        </TabList>
+      <Skeleton isLoaded={!loading}>
+        <Tabs index={tabIndex}>
+          <TabList>
+            <Tab _focus={{ boxShadow: "none" }}>
+              <Link
+                href={{
+                  pathname: "/profile/stories/[name]",
+                  query: { name: "unpublished" },
+                }}
+              >
+                Unpublished
+              </Link>
+            </Tab>
+            <Tab _focus={{ boxShadow: "none" }}>
+              <Link
+                href={{
+                  pathname: "/profile/stories/[name]",
+                  query: { name: "published" },
+                }}
+              >
+                Published
+              </Link>
+            </Tab>
+            <Tab _focus={{ boxShadow: "none" }}>
+              <Link
+                href={{
+                  pathname: "/profile/stories/[name]",
+                  query: { name: "replies" },
+                }}
+              >
+                Replies
+              </Link>
+            </Tab>
+          </TabList>
 
-        <TabPanels>
-          <TabPanel>
-            {/* {JSON.stringify(name)}
+          <TabPanels>
+            <TabPanel>
+              {/* {JSON.stringify(name)}
             {JSON.stringify(stories)} */}
-            <Box>
-              {stories.map((story) => (
-                <StoryHorizontalCard
-                  story={story}
-                  handelStoryDelete={handelStoryDelete}
-                />
-              ))}
-            </Box>
-          </TabPanel>
-          <TabPanel>
-            {/*             
+              <Box>
+                {stories.map((story) => (
+                  <StoryHorizontalCard
+                    story={story}
+                    handelStoryDelete={handelStoryDelete}
+                  />
+                ))}
+              </Box>
+            </TabPanel>
+            <TabPanel>
+              {/*             
             {JSON.stringify(name)}
             {JSON.stringify(stories)} */}
-            <Box>
-              {stories.map((story) => (
-                <StoryHorizontalCard
-                  story={story}
-                  handelStoryDelete={handelStoryDelete}
-                />
-              ))}
-            </Box>
-          </TabPanel>
-          <TabPanel>
-            <p>three!</p>
-            {JSON.stringify(name)}
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+              <Box>
+                {stories.map((story) => (
+                  <StoryHorizontalCard
+                    story={story}
+                    handelStoryDelete={handelStoryDelete}
+                  />
+                ))}
+              </Box>
+            </TabPanel>
+            <TabPanel>
+              <p>three!</p>
+              {JSON.stringify(name)}
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Skeleton>
     </Box>
   );
 }

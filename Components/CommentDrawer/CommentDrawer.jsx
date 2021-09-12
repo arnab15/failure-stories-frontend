@@ -8,6 +8,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   useToast,
+  Skeleton,
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useRef, useState } from "react";
@@ -15,72 +16,10 @@ import { useAuth } from "../../context/AuthContextProvider";
 import commentService from "../../services/commentService";
 import Comment from "../Comment/Comment";
 
-const comment = [
-  {
-    _id: "1",
-    comment:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro quaerat voluptates laborum non nobis facere?",
-    replies: [
-      {
-        _id: "1",
-        reply:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias repudiandae corporis natus in accusamus minima.",
-        repliedBy: {
-          _id: "1",
-          name: "Friends",
-        },
-      },
-      {
-        _id: "2",
-        reply:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias repudiandae corporis natus in accusamus minima.",
-        repliedBy: {
-          _id: "1",
-          name: "hit",
-        },
-      },
-    ],
-    commentedBy: {
-      _id: "1",
-      name: "Arnab",
-    },
-  },
-  {
-    _id: "2",
-    comment:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro quaerat voluptates laborum non nobis facere?",
-    replies: [
-      {
-        _id: "1",
-        reply:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias repudiandae corporis natus in accusamus minima.",
-      },
-      {
-        _id: "2",
-        reply:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias repudiandae corporis natus in accusamus minima.",
-      },
-    ],
-    commentedBy: {
-      _id: "1",
-      name: "Arnab",
-    },
-  },
-  {
-    _id: "3",
-    comment:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro quaerat voluptates laborum non nobis facere?",
-    replies: [],
-    commentedBy: {
-      _id: "1",
-      name: "Arnab",
-    },
-  },
-];
-
 function CommentDrawer({ closeDrawer, isDrawerOpen, storyId }) {
   const textEditableRef = useRef();
   const [comments, setComments] = useState([]);
+  const [loading, setloading] = useState(false);
   const toast = useToast();
   const [commentSubmitting, setCommentSubmitting] = useState(false);
 
@@ -88,9 +27,11 @@ function CommentDrawer({ closeDrawer, isDrawerOpen, storyId }) {
   const router = useRouter();
   const getStoryComments = async () => {
     try {
+      setloading(true);
       const { data } = await commentService.getCommentsByStoryId(storyId);
       console.log("comments", data);
       setComments(data);
+      setloading(false);
     } catch (error) {
       toast({
         title: "Unable get comments,please refresh",
@@ -98,6 +39,7 @@ function CommentDrawer({ closeDrawer, isDrawerOpen, storyId }) {
         duration: 3000,
         position: "top",
       });
+      setloading(false);
       console.log("error occured on comment fetching");
     }
   };
@@ -106,7 +48,10 @@ function CommentDrawer({ closeDrawer, isDrawerOpen, storyId }) {
     console.log("create--", text);
     try {
       if (!currentUser) {
-        router.push("/login");
+        router.push({
+          pathname: "/login",
+          query: { from: router.asPath },
+        });
         return;
       }
       setCommentSubmitting(true);
@@ -148,12 +93,14 @@ function CommentDrawer({ closeDrawer, isDrawerOpen, storyId }) {
         <DrawerHeader>Comments ({comments.length})</DrawerHeader>
 
         <DrawerBody>
-          <Comment
-            comments={comments}
-            handelcreateNewComment={handelcreateNewComment}
-            commentSubmitting={commentSubmitting}
-            refreshComments={getStoryComments}
-          />
+          <Skeleton isLoaded={!loading}>
+            <Comment
+              comments={comments}
+              handelcreateNewComment={handelcreateNewComment}
+              commentSubmitting={commentSubmitting}
+              refreshComments={getStoryComments}
+            />
+          </Skeleton>
         </DrawerBody>
       </DrawerContent>
     </Drawer>

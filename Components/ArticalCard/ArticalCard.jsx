@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
-import { Badge, Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Badge, Box, Flex, Image, Text, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import Link from "next/link";
 import { readTime } from "../../utils/calculateReadTime";
@@ -11,6 +11,7 @@ import {
 } from "../../utils/helpers";
 
 function ArticalCard({ story }) {
+  const { colorMode } = useColorMode();
   const { blocks } = JSON.parse(story.story);
   const day = new Date(story.updatedAt).getDate();
   const month = new Date(story.updatedAt).toLocaleString("en-IN", {
@@ -60,7 +61,7 @@ function ArticalCard({ story }) {
                   as="h3"
                   fontSize="small"
                   fontWeight="semibold"
-                  color="gray.700"
+                  color={colorMode === "dark" ? "gray.100" : "gray.700"}
                   noOfLines={2}
                 >
                   {getFirstHeader(blocks)}
@@ -82,6 +83,7 @@ function ArticalCard({ story }) {
                   direction="row"
                   justifyContent="space-between"
                   alignItems="center"
+                  color={colorMode === "dark" ? "gray.400" : "gray.600"}
                 >
                   <Box>
                     <Flex
@@ -103,31 +105,19 @@ function ArticalCard({ story }) {
                         />
                       </Box>
                       <Box pl="1">
-                        <Text
-                          fontWeight="semibold"
-                          color="gray.600"
-                          fontSize="x-small"
-                        >
+                        <Text fontWeight="semibold" fontSize="x-small">
                           {story.author.name}
                         </Text>
                       </Box>
                     </Flex>
                   </Box>
                   <Box>
-                    <Text
-                      fontWeight="semibold"
-                      color="gray.600"
-                      fontSize="x-small"
-                    >
+                    <Text fontWeight="semibold" fontSize="x-small">
                       {`${day} ${month}`}
                     </Text>
                   </Box>
                   <Box>
-                    <Text
-                      fontWeight="semibold"
-                      color="gray.600"
-                      fontSize="x-small"
-                    >
+                    <Text fontWeight="semibold" fontSize="x-small">
                       {readingTime.text}
                     </Text>
                   </Box>

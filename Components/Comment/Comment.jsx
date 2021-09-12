@@ -34,7 +34,10 @@ function Comment({
     console.log("reply", text);
     try {
       if (!currentUser) {
-        router.push("/login");
+        router.push({
+          pathname: "/login",
+          query: { from: router.asPath },
+        });
         return;
       }
 
