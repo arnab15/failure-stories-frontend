@@ -1,6 +1,7 @@
 import apiService from "./apiService";
 
 const endPoint = "/stories";
+const bookmarkStoryEndPoint = "/bookmark-story";
 const createStory = ({ story }) => apiService.post(endPoint, { story });
 
 const updateStory = ({ story, storyId }) =>
@@ -15,6 +16,10 @@ const publishStory = ({ storyId, published }) =>
 
 const deleteStory = ({ storyId }) =>
   apiService.delete(`${endPoint}/${storyId}`);
+
+const bookmarkStory = ({ storyId }) =>
+  apiService.post(bookmarkStoryEndPoint, { storyId });
+
 export default {
   createStory,
   getStory,
@@ -22,4 +27,5 @@ export default {
   publishStory,
   getAllStories,
   deleteStory,
+  bookmarkStory,
 };

@@ -57,7 +57,7 @@ function ProfileSettings(_props) {
       toast({
         title: error?.response?.data.message,
         status: "error",
-        duration: 9000,
+        duration: 4000,
         isClosable: true,
         position: "top",
       });
@@ -73,7 +73,7 @@ function ProfileSettings(_props) {
       toast({
         title: error?.response?.data.error.message,
         status: "error",
-        duration: 9000,
+        duration: 4000,
         isClosable: true,
         position: "top",
       });
