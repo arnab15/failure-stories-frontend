@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Divider } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
@@ -73,14 +73,94 @@ function EditStory(props) {
           </Button>
         )}
       </Flex>
-      <Box rounded="md" h="full" mx="auto" shadow="sm" p="2">
-        {storyData && (
-          <Editor
-            initialData={JSON.parse(storyData.story)}
-            isNew={false}
-            getData={handelDataSubmit}
-          />
-        )}
+      <Box
+        rounded="md"
+        h="full"
+        mx="auto"
+        shadow="inner"
+        p="2"
+        w={["100%", "100%", "52%"]}
+      >
+        <Text as="h2" pl={["", "", "55px"]} fontSize="25px" fontWeight="500">
+          Share your story with us
+        </Text>
+        <Divider w="50%" mx="auto" mt="3" color="gray.700" />
+        <Box>
+          {storyData && (
+            <Editor
+              initialData={JSON.parse(storyData.story)}
+              isNew={false}
+              getData={handelDataSubmit}
+            />
+          )}
+        </Box>
+      </Box>
+      <Box my="6">
+        <Box
+          rounded="md"
+          h="full"
+          mx="auto"
+          shadow="inner"
+          p="2"
+          w={["100%", "100%", "52%"]}
+        >
+          <Text
+            as="h2"
+            pl={["0", "0", "55px"]}
+            py="2"
+            fontSize="25px"
+            fontWeight="500"
+          >
+            Why did you think you had failed/Rejected ?
+          </Text>
+          <Divider w="50%" mx="auto" my="4" />
+          <Box>{storyData && <Editor isNew={false} />}</Box>
+        </Box>
+      </Box>
+      <Box my="6">
+        <Box
+          rounded="md"
+          h="full"
+          mx="auto"
+          shadow="inner"
+          p="2"
+          w={["100%", "100%", "52%"]}
+        >
+          <Text
+            as="h2"
+            pl={["0", "0", "55px"]}
+            py="2"
+            fontSize="25px"
+            fontWeight="500"
+          >
+            What are the best parts that you have learnt from it?
+          </Text>
+          <Divider w="50%" mx="auto" my="4" />
+          <Box>{storyData && <Editor isNew={false} />}</Box>
+        </Box>
+      </Box>
+      <Box my="6">
+        <Box
+          rounded="md"
+          h="full"
+          mx="auto"
+          shadow="inner"
+          p="2"
+          w={["100%", "100%", "52%"]}
+        >
+          <Text
+            as="h2"
+            pl={["0", "0", "55px"]}
+            py="2"
+            fontSize="25px"
+            fontWeight="500"
+          >
+            What are the advice you would like to give who are doing same
+            mistakes?
+          </Text>
+          <Divider w="50%" mx="auto" my="4" />
+          <Box>{storyData && <Editor isNew={false} />}</Box>
+        </Box>
       </Box>
     </Box>
   );

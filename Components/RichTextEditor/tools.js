@@ -7,9 +7,7 @@ import Image from "@editorjs/image";
 import Header from "@editorjs/header";
 import Quote from "@editorjs/quote";
 import Marker from "@editorjs/marker";
-import CheckList from "@editorjs/checklist";
 import SimpleImage from "@editorjs/simple-image";
-import Table from "@editorjs/table";
 import Delimiter from "@editorjs/delimiter";
 import InlineImage from "editorjs-inline-image";
 import axios from "axios";
@@ -31,7 +29,7 @@ export const EDITOR_JS_TOOLS = {
   linkTool: {
     class: LinkTool,
     config: {
-      endpoint: "http://localhost:5001/api/v1/extract-metadata/", // Your backend endpoint for url data fetching
+      endpoint: `${process.env.NEXT_PUBLIC_BACKEND_URL}/extract-metadata/`, // Your backend endpoint for url data fetching
     },
   },
 
@@ -39,7 +37,7 @@ export const EDITOR_JS_TOOLS = {
     class: Image,
     config: {
       endpoints: {
-        byUrl: "http://localhost:5001/api/v1/images", // Your endpoint that provides uploading by Url
+        byUrl: `${process.env.NEXT_PUBLIC_BACKEND_URL}/images`, // Your endpoint that provides uploading by Url
       },
       uploader: {
         async uploadByFile(file) {
@@ -47,7 +45,7 @@ export const EDITOR_JS_TOOLS = {
             const fd = new FormData();
             fd.append("image", file);
             const { data } = await axios.post(
-              "http://localhost:5001/api/v1/images",
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/images`,
               fd
             );
             return { ...data };
@@ -69,11 +67,6 @@ export const EDITOR_JS_TOOLS = {
       defaultLevel: 3,
     },
   },
-  // table: {
-  //   class: Table,
-  //   inlineToolbar: true,
-  // },
-
   quote: {
     class: Quote,
     inlineToolbar: true,
@@ -90,7 +83,7 @@ export const EDITOR_JS_TOOLS = {
     inlineToolbar: true,
     config: {
       embed: {
-        display: true,
+        display: false,
       },
       unsplash: {
         appName: "failure",
