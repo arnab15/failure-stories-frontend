@@ -227,26 +227,27 @@ export default function Navbar({ children }) {
                       py="1.5"
                     >
                       <Stack spacing="4">
-                        <Text fontSize="smaller" cursor="pointer">
-                          <Flex alignItems="center">
-                            <Text h="5" w="5" color="blue.500" mr="2">
-                              <svg
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
-                              </svg>
-                            </Text>
-                            <Text>Bookmarked Stories</Text>
-                          </Flex>
-                        </Text>
-                        <NextLink href="/logout">
-                          <Text fontSize="md" cursor="pointer">
+                        <NextLink href="/profile/bookmarked-stories">
+                          <Text fontSize="smaller" cursor="pointer">
                             <Flex alignItems="center">
                               <Text h="5" w="5" color="blue.500" mr="2">
                                 <svg
-                                  className="w-6 h-6"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                                </svg>
+                              </Text>
+                              <Text>Bookmarked Stories</Text>
+                            </Flex>
+                          </Text>
+                        </NextLink>
+                        <NextLink href="/logout">
+                          <Text fontSize="smaller" cursor="pointer">
+                            <Flex alignItems="center">
+                              <Text h="5" w="5" color="blue.500" mr="2">
+                                <svg
                                   fill="currentColor"
                                   viewBox="0 0 20 20"
                                   xmlns="http://www.w3.org/2000/svg"

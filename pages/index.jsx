@@ -22,11 +22,9 @@ export default function Home({ data }) {
 
   React.useEffect(() => {
     const start = () => {
-      console.log("start");
       setLoading(true);
     };
     const end = () => {
-      console.log("findished");
       setLoading(false);
     };
     Router.events.on("routeChangeStart", start);
@@ -38,8 +36,6 @@ export default function Home({ data }) {
       Router.events.off("routeChangeError", end);
     };
   }, []);
-
-  console.log("data", data);
   return (
     <Box mx={["0", "0", "8%"]} mt="66px">
       <SimpleGrid

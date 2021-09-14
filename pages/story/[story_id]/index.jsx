@@ -1,22 +1,18 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
-import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 import React, { useState } from "react";
 import CommentDrawer from "../../../Components/CommentDrawer/CommentDrawer";
 import Parser from "../../../Components/Parser";
 import Title from "../../../Components/Parser/Title";
 import ProfileCard from "../../../Components/ProfileCard/ProfileCard";
-import { readTime } from "../../../utils/calculateReadTime";
 
 function Story({ story }) {
-  const value = useBreakpointValue({ base: "100%", md: "600px" });
   const [isDrawerOpen, setisDrawerOpen] = useState(false);
   const parsedBlocks = JSON.parse(story.story).blocks;
-  console.log("vall", value);
-  console.log("time", readTime());
-  console.log("story-----", parsedBlocks);
+
   const openDrawer = () => {
     setisDrawerOpen(true);
   };
@@ -39,13 +35,6 @@ function Story({ story }) {
             parsedBlocks
               .slice(1)
               .map((block) => <Parser block={block} key={block.id} />)}
-
-          {/* <Box>
-            <Text fontSize="20px">
-              &#8220;Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Atque, quas. &#8221; - Dalihi Lamha
-            </Text>
-          </Box> */}
         </Flex>
       </Box>
     </Box>

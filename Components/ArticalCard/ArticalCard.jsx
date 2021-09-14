@@ -8,68 +8,34 @@ import {
   Text,
   Tooltip,
   useColorMode,
-  useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { readTime } from "../../utils/calculateReadTime";
 import {
   getFirstDescription,
   getFirstHeader,
   getFirstImage,
 } from "../../utils/helpers";
-import { useAuth } from "../../context/AuthContextProvider";
-import storiesService from "../../services/storiesService";
 
-function ArticalCard({ story }) {
-  const { currentUser } = useAuth();
-  const toast = useToast();
-  const router = useRouter();
+import { useBookmarkStory } from "../../hooks/stories/useBookmarkStory";
+
+function ArticalCard({ story, showBookmarkOption = true }) {
   const { colorMode } = useColorMode();
-  const [bookmarkedPosts, setBookMarkedPosts] = useState([]);
+  const { bookmarkAStory, currentUser, bookmarkedPosts } =
+    useBookmarkStory(story);
+
   const { blocks } = JSON.parse(story.story);
   const day = new Date(story.updatedAt).getDate();
   const month = new Date(story.updatedAt).toLocaleString("en-IN", {
     month: "short",
   });
   const readingTime = readTime(JSON.parse(story.story).blocks);
-  const addStoryToBookmark = async (id) => {
-    if (!currentUser)
-      return router.push({
-        pathname: "/login",
-        query: { from: router.asPath },
-      });
-    const isAlreadyBookmarked = story.bookmarkedBy.includes(currentUser.userId);
 
-    if (isAlreadyBookmarked)
-      return toast({
-        description: "You have already bookmarked the story",
-        status: "warning",
-        duration: 4000,
-        position: "top",
-        isClosable: true,
-      });
-    try {
-      await storiesService.bookmarkStory({ storyId: id });
-      setBookMarkedPosts([...bookmarkedPosts, id]);
-      toast({
-        description: "Story bookmarked successfully",
-        status: "success",
-        duration: 3000,
-        position: "top",
-        isClosable: true,
-      });
-    } catch (error) {
-      toast({
-        description: error?.response?.data.message,
-        status: "warning",
-        duration: 4000,
-        position: "top",
-        isClosable: true,
-      });
-    }
+  const addStoryToBookmark = async (id) => {
+    await bookmarkAStory(id);
   };
+
   return (
     blocks.length > 0 && (
       <Link href={`/story/${story._id}`}>
@@ -173,35 +139,37 @@ function ArticalCard({ story }) {
                       {readingTime.text}
                     </Text>
                   </Box>
-                  <Box>
-                    <Tooltip label="Bookmark Story">
-                      <Box
-                        w="5"
-                        h="4"
-                        color={
-                          currentUser &&
-                          (bookmarkedPosts.includes(story._id) ||
-                            story.bookmarkedBy.includes(currentUser.userId))
-                            ? "orange.400"
-                            : "gray.600"
-                        }
-                        _hover={{ color: "orange.400" }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          console.log("clicked", story._id);
-                          addStoryToBookmark(story._id);
-                        }}
-                      >
-                        <svg
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
+
+                  {showBookmarkOption && (
+                    <Box>
+                      <Tooltip label="Bookmark Story">
+                        <Box
+                          w="5"
+                          h="4"
+                          color={
+                            currentUser &&
+                            (bookmarkedPosts.includes(story._id) ||
+                              story.bookmarkedBy?.includes(currentUser.userId))
+                              ? "orange.400"
+                              : "gray.600"
+                          }
+                          _hover={{ color: "orange.400" }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addStoryToBookmark(story._id);
+                          }}
                         >
-                          <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
-                        </svg>
-                      </Box>
-                    </Tooltip>
-                  </Box>
+                          <svg
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                          </svg>
+                        </Box>
+                      </Tooltip>
+                    </Box>
+                  )}
                 </Flex>
               </Box>
             </Flex>

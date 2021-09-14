@@ -1,16 +1,21 @@
 import { Avatar, Box, Flex, Text, Tooltip } from "@chakra-ui/react";
 import React from "react";
+import { useBookmarkStory } from "../../hooks/stories/useBookmarkStory";
 import { readTime } from "../../utils/calculateReadTime";
 
 function ProfileCard({ story, openDrawer }) {
-  console.log("story--pro", story);
+  const { bookmarkAStory, currentUser, bookmarkedPosts } =
+    useBookmarkStory(story);
 
   const day = new Date(story.updatedAt).getDate();
   const month = new Date(story.updatedAt).toLocaleString("en-IN", {
     month: "short",
   });
-
   const readingTime = readTime(JSON.parse(story.story).blocks);
+
+  const handelBookmarkButtonClick = async () => {
+    await bookmarkAStory(story._id);
+  };
   return (
     <Flex justifyContent="space-between" py="2">
       <Flex alignItems="center">
@@ -39,58 +44,35 @@ function ProfileCard({ story, openDrawer }) {
         </Flex>
       </Flex>
       <Flex justifyContent="space-between" alignItems="center">
-        <Tooltip label="save to read later">
+        <Tooltip label="Bookmark Story">
           <Text
-            h={["7", "10"]}
-            w={["7", "10"]}
-            color="gray.500"
+            h={["6", "8"]}
+            w={["6", "8"]}
+            color={
+              currentUser &&
+              (bookmarkedPosts.includes(story._id) ||
+                story.bookmarkedBy.includes(currentUser.userId))
+                ? "orange.400"
+                : "gray.600"
+            }
             px="1"
             cursor="pointer"
             fontWeight="500"
+            onClick={handelBookmarkButtonClick}
           >
             <svg
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+              fill="currentColor"
+              viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-              />
-            </svg>
-          </Text>
-        </Tooltip>
-
-        <Tooltip label="Share">
-          <Text
-            h={["7", "10"]}
-            w={["7", "10"]}
-            color="green.500"
-            px="1"
-            cursor="pointer"
-          >
-            <svg
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-              />
+              <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
             </svg>
           </Text>
         </Tooltip>
         <Tooltip label="Comments">
           <Text
-            h={["7", "10"]}
-            w={["7", "10"]}
+            h={["6", "8"]}
+            w={["6", "8"]}
             color="blue.500"
             px="1"
             cursor="pointer"
@@ -111,6 +93,21 @@ function ProfileCard({ story, openDrawer }) {
             </svg>
           </Text>
         </Tooltip>
+        <Text
+          h={["6", "8"]}
+          w={["6", "8"]}
+          color="gray"
+          px="1"
+          cursor="pointer"
+        >
+          <svg
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+          </svg>
+        </Text>
       </Flex>
     </Flex>
   );
