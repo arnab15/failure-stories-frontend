@@ -1,17 +1,35 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
-import { Box, Button, Flex, Text, Divider } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  Divider,
+  Switch,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import withProtectedRoute from "../../../hoc/withProtectedRoute";
 import storiesService from "../../../services/storiesService";
+import Select from "../../../Components/ReactSelectChakraUI/ReactSelectChakraUi";
 
 const Editor = dynamic(
   // eslint-disable-next-line import/no-extraneous-dependencies
   () => import("../../../Components/RichTextEditor/Editor"),
   { ssr: false }
 );
+
+const colourOptions = [
+  { value: "Career Failure", label: "Career Failure" },
+  { value: "Failed in College", label: "Failed in College" },
+  { value: "Failed in Life", label: "Failed in Life" },
+  { value: "Relationship Failed", label: "Relationship Failed" },
+];
+
 function EditStory(props) {
   const router = useRouter();
   const [storyData, setStoryData] = useState();
@@ -66,23 +84,23 @@ function EditStory(props) {
   return (
     <Box h="full">
       <Flex justify="space-between" py="3" px="2">
-        <Text>Write Story</Text>
-        {storyData && !storyData.published && (
-          <Button borderRadius="2xl" onClick={handelStoryPublish}>
-            Publish
-          </Button>
-        )}
+        <Text>Create Story</Text>
       </Flex>
       <Box
         rounded="md"
-        h="full"
         mx="auto"
         shadow="inner"
         p="2"
         w={["100%", "100%", "52%"]}
       >
-        <Text as="h2" pl={["", "", "55px"]} fontSize="25px" fontWeight="500">
-          Share your story with us
+        <Text
+          as="h2"
+          pl={["", "", "55px"]}
+          fontSize="25px"
+          fontWeight="500"
+          pt="4"
+        >
+          Share your story with us :
         </Text>
         <Divider w="50%" mx="auto" mt="3" color="gray.700" />
         <Box>
@@ -91,19 +109,11 @@ function EditStory(props) {
               initialData={JSON.parse(storyData.story)}
               isNew={false}
               getData={handelDataSubmit}
+              autofocus="true"
             />
           )}
         </Box>
-      </Box>
-      <Box my="6">
-        <Box
-          rounded="md"
-          h="full"
-          mx="auto"
-          shadow="inner"
-          p="2"
-          w={["100%", "100%", "52%"]}
-        >
+        <Box>
           <Text
             as="h2"
             pl={["0", "0", "55px"]}
@@ -111,56 +121,41 @@ function EditStory(props) {
             fontSize="25px"
             fontWeight="500"
           >
-            Why did you think you had failed/Rejected ?
+            Lesson Learnt :
           </Text>
           <Divider w="50%" mx="auto" my="4" />
-          <Box>{storyData && <Editor isNew={false} />}</Box>
+          <Box>{storyData && <Editor isNew={false} autofocus="false" />}</Box>
         </Box>
-      </Box>
-      <Box my="6">
-        <Box
-          rounded="md"
-          h="full"
-          mx="auto"
-          shadow="inner"
-          p="2"
-          w={["100%", "100%", "52%"]}
-        >
-          <Text
-            as="h2"
-            pl={["0", "0", "55px"]}
-            py="2"
-            fontSize="25px"
-            fontWeight="500"
-          >
-            What are the best parts that you have learnt from it?
-          </Text>
-          <Divider w="50%" mx="auto" my="4" />
-          <Box>{storyData && <Editor isNew={false} />}</Box>
+        <Box>
+          <FormControl p={4}>
+            <Select
+              isMulti
+              name="colors"
+              options={colourOptions}
+              placeholder="Add some tags..."
+              closeMenuOnSelect
+              size="sm"
+              onChange={(value) => console.log("val", value)}
+            />
+          </FormControl>
         </Box>
-      </Box>
-      <Box my="6">
-        <Box
-          rounded="md"
-          h="full"
-          mx="auto"
-          shadow="inner"
-          p="2"
-          w={["100%", "100%", "52%"]}
-        >
-          <Text
-            as="h2"
-            pl={["0", "0", "55px"]}
-            py="2"
-            fontSize="25px"
-            fontWeight="500"
-          >
-            What are the advice you would like to give who are doing same
-            mistakes?
-          </Text>
-          <Divider w="50%" mx="auto" my="4" />
-          <Box>{storyData && <Editor isNew={false} />}</Box>
-        </Box>
+        <Flex justifyContent="space-between" alignItems="center" px="4" mb="16">
+          <FormControl display="flex" alignItems="center">
+            <FormLabel htmlFor="email-alerts" mb="0">
+              Post anonymously!
+            </FormLabel>
+            <Switch id="email-alerts" />
+          </FormControl>
+          {storyData && !storyData.published && (
+            <Button
+              borderRadius="2xl"
+              onClick={handelStoryPublish}
+              colorScheme="orange"
+            >
+              Publish
+            </Button>
+          )}
+        </Flex>
       </Box>
     </Box>
   );
