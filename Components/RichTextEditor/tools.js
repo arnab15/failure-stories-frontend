@@ -17,14 +17,16 @@ export const EDITOR_JS_TOOLS = {
   delimiter: Delimiter,
   paragraph: {
     class: Paragraph,
-    inlineToolbar: ["link", "bold", "italic"],
+    // inlineToolbar: ["link", "bold", "italic"],
+    inlineToolbar: false,
+
     config: {
       placeholder: "Write somthing here",
     },
   },
   list: {
     class: List,
-    inlineToolbar: true,
+    inlineToolbar: false,
   },
   linkTool: {
     class: LinkTool,
@@ -69,7 +71,7 @@ export const EDITOR_JS_TOOLS = {
   },
   quote: {
     class: Quote,
-    inlineToolbar: true,
+    inlineToolbar: false,
     config: {
       quotePlaceholder: "Enter a quote",
       captionPlaceholder: "Quote's author",
@@ -80,7 +82,7 @@ export const EDITOR_JS_TOOLS = {
   simpleImage: SimpleImage,
   InlineImage: {
     class: InlineImage,
-    inlineToolbar: true,
+    inlineToolbar: false,
     config: {
       embed: {
         display: false,

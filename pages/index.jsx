@@ -63,11 +63,10 @@ export default function Home({ data }) {
         <Box display={["none", "none", "block"]} px="6" mt="4">
           <Box>
             <Text fontSize="16px" fontWeight="500" pt="4" pb="0.5" ml="2">
-              Are you excited to share your failed story?
+              if society and people don't judge you
             </Text>
             <Text as="p" fontWeight="400" pb="2" ml="2">
-              You can share your failure story or rejection story with us with
-              out any hesitation
+              would you like to share your failure stories with us?
             </Text>
             <Link href="story/new-story">
               <Button
@@ -78,7 +77,7 @@ export default function Home({ data }) {
                   boxShadow: "none",
                 }}
               >
-                Write Now
+                Write Your Story Now
               </Button>
             </Link>
           </Box>

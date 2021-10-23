@@ -41,3 +41,10 @@ a {
 #nprogress .bar {
   background: #66de93 !important;
 }
+
+.codex-editor {
+  border: 1px solid gray;
+  border-radius: 20px;
+  padding: 5px;
+  padding-left: 10px;
+}

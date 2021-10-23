@@ -130,33 +130,40 @@ function Login() {
               isSubmitting,
               handleSubmit,
               handleChange,
-              setFieldTouched,
+              handleBlur,
             }) => (
               <form onSubmit={handleSubmit}>
                 <Stack spacing={4}>
-                  <FormControl id="email" isInvalid={errors.email}>
+                  <FormControl
+                    id="email"
+                    isInvalid={touched.email && errors.email}
+                  >
                     <FormLabel>Email address</FormLabel>
                     <Input
                       name="email"
                       value={values.email}
                       type="email"
                       onChange={handleChange}
-                      onBlur={setFieldTouched}
+                      onBlur={handleBlur}
                     />
-                    {(errors.email || touched.email) && (
+                    {console.log(touched)}
+                    {touched.email && errors.email && (
                       <FormErrorMessage>{errors.email}</FormErrorMessage>
                     )}
                   </FormControl>
-                  <FormControl id="password" isInvalid={errors.password}>
+                  <FormControl
+                    id="password"
+                    isInvalid={touched.password && errors.password}
+                  >
                     <FormLabel>Password</FormLabel>
                     <Input
                       name="password"
                       type="password"
                       value={values.password}
                       onChange={handleChange}
-                      onBlur={setFieldTouched}
+                      onBlur={handleBlur}
                     />
-                    {(errors.password || touched.password) && (
+                    {touched.password && errors.password && (
                       <FormErrorMessage>{errors.password}</FormErrorMessage>
                     )}
                   </FormControl>

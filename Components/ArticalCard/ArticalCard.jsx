@@ -11,15 +11,15 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import Link from "next/link";
+import * as dayjs from "dayjs";
+import * as relativeTime from "dayjs/plugin/relativeTime";
+
 import { readTime } from "../../utils/calculateReadTime";
-import {
-  getFirstDescription,
-  getFirstHeader,
-  getFirstImage,
-} from "../../utils/helpers";
+import { getFirstDescription } from "../../utils/helpers";
 
 import { useBookmarkStory } from "../../hooks/stories/useBookmarkStory";
 
+dayjs.extend(relativeTime);
 function ArticalCard({ story, showBookmarkOption = true }) {
   const { colorMode } = useColorMode();
   const { bookmarkAStory, currentUser, bookmarkedPosts } =
@@ -30,6 +30,7 @@ function ArticalCard({ story, showBookmarkOption = true }) {
   const month = new Date(story.updatedAt).toLocaleString("en-IN", {
     month: "short",
   });
+  console.log("storyyyy", story);
   const readingTime = readTime(JSON.parse(story.story).blocks);
 
   const addStoryToBookmark = async (id) => {
@@ -43,11 +44,12 @@ function ArticalCard({ story, showBookmarkOption = true }) {
           maxWidth={["100%", "720"]}
           overflow="hidden"
           borderRadius="lg"
-          boxShadow="sm"
+          boxShadow="lg"
           cursor="pointer"
+          p="1.5"
         >
-          <Flex direction="row" h={["115", "140"]}>
-            <Box width={125}>
+          <Flex direction="row">
+            {/* <Box width={125}>
               <Image
                 boxSize="100%"
                 height="100%"
@@ -60,7 +62,7 @@ function ArticalCard({ story, showBookmarkOption = true }) {
                     : "https://picsum.photos/300/300.jpg"
                 }
               />
-            </Box>
+            </Box> */}
 
             <Flex
               width="100%"
@@ -70,50 +72,14 @@ function ArticalCard({ story, showBookmarkOption = true }) {
               justifyContent="space-evenly"
             >
               <Box pb="0.5">
-                <Badge rounded="sm" colorScheme="red" fontSize="x-small">
-                  <Text p="0.5">Rejected in Career</Text>
-                </Badge>
-              </Box>
-              <Box>
-                <Text
-                  as="h3"
-                  fontSize="small"
-                  fontWeight="semibold"
-                  color={colorMode === "dark" ? "gray.100" : "gray.700"}
-                  noOfLines={2}
-                >
-                  {getFirstHeader(blocks)}
-                </Text>
-              </Box>
-
-              {getFirstDescription(blocks) && (
-                <Box pt="1">
-                  <Text as="p" fontSize="xs" noOfLines={1}>
-                    {getFirstDescription(blocks)}
-                  </Text>
-                </Box>
-              )}
-
-              <Box pt="1.5">
-                <Flex
-                  px="1.5"
-                  pb="1"
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  color={colorMode === "dark" ? "gray.400" : "gray.600"}
-                >
-                  <Box>
-                    <Flex
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
+                <Flex justifyContent="space-between">
+                  <Box my="0.5">
+                    <Flex direction="row" alignItems="center">
                       <Box>
                         <Image
                           rounded="full"
-                          height="4"
-                          width="4"
+                          height={["6", "8"]}
+                          width={["6", "8"]}
                           // src="https://i.pravatar.cc/300"
                           src={
                             !story.author.profilePic
@@ -122,22 +88,22 @@ function ArticalCard({ story, showBookmarkOption = true }) {
                           }
                         />
                       </Box>
-                      <Box pl="1">
-                        <Text fontWeight="semibold" fontSize="x-small">
-                          {story.author.name}
-                        </Text>
+                      <Box pl="1.5">
+                        <Flex direction="column">
+                          <Text
+                            fontWeight="semibold"
+                            fontSize={["x-small", "sm"]}
+                          >
+                            {story.postAnonomusly
+                              ? "Unknown"
+                              : story.author.name.split(" ")[0]}
+                          </Text>
+                          <Text fontSize="x-small">
+                            {dayjs(dayjs(story.updatedAt)).fromNow()}
+                          </Text>
+                        </Flex>
                       </Box>
                     </Flex>
-                  </Box>
-                  <Box>
-                    <Text fontWeight="semibold" fontSize="x-small">
-                      {`${day} ${month}`}
-                    </Text>
-                  </Box>
-                  <Box>
-                    <Text fontWeight="semibold" fontSize="x-small">
-                      {readingTime.text}
-                    </Text>
                   </Box>
 
                   {showBookmarkOption && (
@@ -172,6 +138,44 @@ function ArticalCard({ story, showBookmarkOption = true }) {
                   )}
                 </Flex>
               </Box>
+              {/* <Box>
+                <Text
+                  as="h3"
+                  fontSize="small"
+                  fontWeight="semibold"
+                  color={colorMode === "dark" ? "gray.100" : "gray.700"}
+                  noOfLines={2}
+                >
+                  {getFirstHeader(blocks)}
+                </Text>
+              </Box> */}
+
+              {getFirstDescription(blocks) && (
+                <Box pt="1">
+                  <Text as="p" fontSize={["sm", "md"]} noOfLines={3}>
+                    {getFirstDescription(blocks)}
+                  </Text>
+                </Box>
+              )}
+              <Flex justifyContent="space-between" mt="2.5" mb="1">
+                <Flex>
+                  {story.tags?.map((tag) => (
+                    <Badge
+                      rounded="sm"
+                      colorScheme="gray"
+                      fontSize="x-small"
+                      mr="1.5"
+                    >
+                      <Text p="0.5">{`${tag.emoji} ${tag.title}`}</Text>
+                    </Badge>
+                  ))}
+                </Flex>
+                <Box>
+                  <Text fontWeight="semibold" fontSize="x-small">
+                    {readingTime.text}
+                  </Text>
+                </Box>
+              </Flex>
             </Flex>
           </Flex>
         </Box>

@@ -117,52 +117,63 @@ export default function Signup() {
               isSubmitting,
               handleSubmit,
               handleChange,
-              setFieldTouched,
+              handleBlur,
             }) => (
               <form onSubmit={handleSubmit}>
                 <Stack spacing={4}>
-                  <FormControl id="name" isInvalid={errors.name}>
+                  <FormControl
+                    id="name"
+                    isInvalid={touched.name && errors.name}
+                  >
                     <FormLabel>Your Name</FormLabel>
                     <Input
                       name="name"
                       value={values.name}
                       type="text"
                       onChange={handleChange}
-                      onBlur={setFieldTouched}
+                      onBlur={handleBlur}
                     />
-                    {(errors.name || touched.name) && (
+                    {touched.name && errors.name && (
                       <FormErrorMessage>{errors.name}</FormErrorMessage>
                     )}
                   </FormControl>
-                  <FormControl id="email" isInvalid={errors.email}>
+                  <FormControl
+                    id="email"
+                    isInvalid={touched.email && errors.email}
+                  >
                     <FormLabel>Email address</FormLabel>
                     <Input
                       name="email"
                       value={values.email}
                       type="email"
                       onChange={handleChange}
-                      onBlur={setFieldTouched}
+                      onBlur={handleBlur}
                     />
-                    {(errors.email || touched.email) && (
+                    {touched.email && errors.email && (
                       <FormErrorMessage>{errors.email}</FormErrorMessage>
                     )}
                   </FormControl>
-                  <FormControl id="password" isInvalid={errors.password}>
+                  <FormControl
+                    id="password"
+                    isInvalid={touched.password && errors.password}
+                  >
                     <FormLabel>Password</FormLabel>
                     <Input
                       name="password"
                       type="password"
                       value={values.password}
                       onChange={handleChange}
-                      onBlur={setFieldTouched}
+                      onBlur={handleBlur}
                     />
-                    {(errors.password || touched.password) && (
+                    {touched.password && errors.password && (
                       <FormErrorMessage>{errors.password}</FormErrorMessage>
                     )}
                   </FormControl>
                   <FormControl
                     id="confirmPassword"
-                    isInvalid={errors.confirmPassword}
+                    isInvalid={
+                      touched.confirmPassword && errors.confirmPassword
+                    }
                   >
                     <FormLabel>Confirm Password</FormLabel>
                     <Input
@@ -170,9 +181,9 @@ export default function Signup() {
                       type="password"
                       value={values.confirmPassword}
                       onChange={handleChange}
-                      onBlur={setFieldTouched}
+                      onBlur={handleBlur}
                     />
-                    {(errors.confirmPassword || touched.confirmPassword) && (
+                    {touched.confirmPassword && errors.confirmPassword && (
                       <FormErrorMessage>
                         {errors.confirmPassword}
                       </FormErrorMessage>

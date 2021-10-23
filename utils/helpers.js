@@ -1,11 +1,13 @@
 /* eslint-disable import/prefer-default-export */
+import { decode } from "html-entities";
+
 export const getFirstHeader = (blocks) => {
   const allHeaders = blocks.filter((block) => block.type === "header");
   if (allHeaders.length === 0) {
     const allParagraphs = blocks.filter((block) => block.type === "paragraph");
-    return allParagraphs.length === 0 ? null : allParagraphs[0].data.text;
+    return allParagraphs.length === 0 ? null : decode(allHeaders[0].data.text);
   }
-  return allHeaders[0].data.text;
+  return decode(allHeaders[0].data.text);
 };
 
 export const getFirstImage = (blocks) => {
@@ -25,5 +27,5 @@ export const getFirstDescription = (blocks) => {
   if (allParagraphs.length === 0) {
     return null;
   }
-  return allParagraphs[0].data.text;
+  return decode(allParagraphs[0].data.text);
 };

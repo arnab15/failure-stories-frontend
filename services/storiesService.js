@@ -4,15 +4,15 @@ const endPoint = "/stories";
 const bookmarkStoryEndPoint = "/bookmark-story";
 const createStory = ({ story }) => apiService.post(endPoint, { story });
 
-const updateStory = ({ story, storyId }) =>
-  apiService.put(`${endPoint}/${storyId}`, { story });
+const updateStory = ({ story, storyId, learning }) =>
+  apiService.put(`${endPoint}/${storyId}`, { story, learning });
 
 const getStory = ({ storyId }) => apiService.get(`${endPoint}/${storyId}`);
 
 const getAllStories = () => apiService.get(endPoint);
 
-const publishStory = ({ storyId, published }) =>
-  apiService.put(`${endPoint}/${storyId}`, { published });
+const publishStory = ({ storyId, published, tags, postAnonomusly }) =>
+  apiService.put(`${endPoint}/${storyId}`, { published, tags, postAnonomusly });
 
 const deleteStory = ({ storyId }) =>
   apiService.delete(`${endPoint}/${storyId}`);
