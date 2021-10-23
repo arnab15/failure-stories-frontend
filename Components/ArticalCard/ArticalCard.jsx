@@ -26,10 +26,10 @@ function ArticalCard({ story, showBookmarkOption = true }) {
     useBookmarkStory(story);
 
   const { blocks } = JSON.parse(story.story);
-  const day = new Date(story.updatedAt).getDate();
-  const month = new Date(story.updatedAt).toLocaleString("en-IN", {
-    month: "short",
-  });
+  // const day = new Date(story.updatedAt).getDate();
+  // const month = new Date(story.updatedAt).toLocaleString("en-IN", {
+  //   month: "short",
+  // });
   console.log("storyyyy", story);
   const readingTime = readTime(JSON.parse(story.story).blocks);
 
@@ -82,7 +82,7 @@ function ArticalCard({ story, showBookmarkOption = true }) {
                           width={["6", "8"]}
                           // src="https://i.pravatar.cc/300"
                           src={
-                            !story.author.profilePic
+                            story.postAnonomusly || !story.author.profilePic
                               ? `https://avatars.dicebear.com/api/avataaars/${story.author.name}.svg`
                               : story.author.profilePic
                           }
