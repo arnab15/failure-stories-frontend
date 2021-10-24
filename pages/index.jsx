@@ -12,15 +12,33 @@ import {
   Button,
   Skeleton,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/dist/client/link";
 import Router from "next/router";
 import ArticalCard from "../Components/ArticalCard/ArticalCard";
+import { getAllTags } from "../services/tagService";
 
 export default function Home({ data }) {
   const [loading, setLoading] = React.useState(false);
+  const [tags, setTags] = useState([]);
+
+  const fetchAllTagsAndSave = async () => {
+    try {
+      const { data: tagData } = await getAllTags();
+      console.log("tags", data);
+      setTags(
+        tagData.map((tag) => ({
+          value: tag._id,
+          label: `${tag.emoji} ${tag.title}`,
+        }))
+      );
+    } catch (error) {
+      console.log("tag fetch error");
+    }
+  };
 
   React.useEffect(() => {
+    fetchAllTagsAndSave();
     const start = () => {
       setLoading(true);
     };
@@ -84,89 +102,24 @@ export default function Home({ data }) {
 
           <Box>
             <Text fontSize="18px" fontWeight="500" pt="4" pb="2" ml="2">
-              Available Topics
+              Available Tags
             </Text>
             <Flex flexWrap="wrap">
-              <Badge
-                colorScheme="gray"
-                mx="2"
-                my="2"
-                p="1.5"
-                borderRadius="full"
-                color="gray.600"
-                textTransform="capitalize"
-                fontWeight="500"
-                cursor="pointer"
-                _hover={{
-                  backgroundColor: "gray.200",
-                }}
-              >
-                <Text px="1.5"> Relationship Faliled</Text>
-              </Badge>
-              <Badge
-                colorScheme="gray"
-                mx="2"
-                my="2"
-                p="1.5"
-                borderRadius="full"
-                color="gray.600"
-                textTransform="capitalize"
-                fontWeight="500"
-                cursor="pointer"
-                _hover={{
-                  backgroundColor: "gray.200",
-                }}
-              >
-                <Text px="1.5"> Interview failed</Text>
-              </Badge>
-              <Badge
-                colorScheme="gray"
-                mx="2"
-                my="2"
-                p="1.5"
-                borderRadius="full"
-                color="gray.600"
-                textTransform="capitalize"
-                fontWeight="500"
-                cursor="pointer"
-                _hover={{
-                  backgroundColor: "gray.200",
-                }}
-              >
-                <Text px="1.5">Family failed</Text>
-              </Badge>
-              <Badge
-                colorScheme="gray"
-                mx="2"
-                my="2"
-                p="1.5"
-                borderRadius="full"
-                color="gray.600"
-                textTransform="capitalize"
-                fontWeight="500"
-                cursor="pointer"
-                _hover={{
-                  backgroundColor: "gray.200",
-                }}
-              >
-                <Text px="1.5">Job failed</Text>
-              </Badge>
-              <Badge
-                colorScheme="gray"
-                mx="2"
-                my="2"
-                p="1.5"
-                borderRadius="full"
-                color="gray.600"
-                textTransform="capitalize"
-                fontWeight="500"
-                cursor="pointer"
-                _hover={{
-                  backgroundColor: "gray.200",
-                }}
-              >
-                <Text px="1.5">Exam failed</Text>
-              </Badge>
+              {tags.map((tag) => (
+                <Badge
+                  key={tag._id}
+                  colorScheme="gray"
+                  mx="2"
+                  my="2"
+                  p="1.5"
+                  borderRadius="full"
+                  textTransform="capitalize"
+                  fontWeight="500"
+                  cursor="pointer"
+                >
+                  <Text px="1.5"> {tag.label}</Text>
+                </Badge>
+              ))}
             </Flex>
           </Box>
           <Divider w="70%" mx="auto" mt="4" />
