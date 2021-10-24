@@ -5,7 +5,7 @@ export const getFirstHeader = (blocks) => {
   const allHeaders = blocks.filter((block) => block.type === "header");
   if (allHeaders.length === 0) {
     const allParagraphs = blocks.filter((block) => block.type === "paragraph");
-    return allParagraphs.length === 0 ? null : decode(allHeaders[0].data.text);
+    return allParagraphs.length === 0 ? null : decode(allHeaders[0]?.data.text);
   }
   return decode(allHeaders[0].data.text);
 };
