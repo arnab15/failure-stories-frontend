@@ -14,8 +14,9 @@ function HeaderParser({ block }) {
             fontSize={["30px", "40px"]}
             fontWeight="600"
             lineHeight={["30px", "50px"]}
+            dangerouslySetInnerHTML={{ __html: decode(block.data.text) }}
           >
-            {decode(block.data.text)}
+            {/* {decode(block.data.text)} */}
           </Text>
         </Box>
       )}

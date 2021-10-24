@@ -5,19 +5,16 @@ import {
   Button,
   Flex,
   Text,
-  Divider,
-  Switch,
   FormControl,
-  FormLabel,
   FormErrorMessage,
   Checkbox,
+  useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import async from "react-select/async";
 import withProtectedRoute from "../../../hoc/withProtectedRoute";
 import storiesService from "../../../services/storiesService";
 import Select from "../../../Components/ReactSelectChakraUI/ReactSelectChakraUi";
@@ -29,12 +26,6 @@ const Editor = dynamic(
   { ssr: false }
 );
 
-const colourOptions = [
-  { value: "😫 Career Failure", label: "😫 Career Failure" },
-  { value: "Failed in College", label: "Failed in College" },
-  { value: "Failed in Life", label: "Failed in Life" },
-  { value: "Relationship Failed", label: "Relationship Failed" },
-];
 const storyFormValidationSchema = Yup.object().shape({
   tags: Yup.array()
     .min(1, "you have to select atleast one tag")
@@ -42,8 +33,9 @@ const storyFormValidationSchema = Yup.object().shape({
     .required("You can't leave this blank."),
   postAnonomusly: Yup.boolean().required().default(false),
 });
-function EditStory(props) {
+function EditStory() {
   const router = useRouter();
+  const toast = useToast();
   const [tags, setTags] = useState([]);
   const [storyData, setStoryData] = useState();
   const [currentStoryData, setCurrentStorydata] = useState({
@@ -68,6 +60,16 @@ function EditStory(props) {
   const handelSubmit = async (values) => {
     const tagArrayWithOnlyIds = values.tags.map((tag) => tag.value);
     try {
+      if (!currentStoryData.story) {
+        toast({
+          description: "You must have to write a story before publish",
+          status: "error",
+          duration: 4000,
+          position: "top",
+          isClosable: true,
+        });
+        return;
+      }
       await storiesService.publishStory({
         storyId: storyData._id,
         published: true,
@@ -147,6 +149,15 @@ function EditStory(props) {
     }
   };
 
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const { story_id } = router.query;
+  //     if (story_id) {
+  //       getStoryById(story_id);
+  //     }
+  //   }
+  // }, [router]);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const { story_id } = router.query;
@@ -154,9 +165,6 @@ function EditStory(props) {
         getStoryById(story_id);
       }
     }
-  }, [router]);
-
-  useEffect(() => {
     fetchAllTagsAndSave();
   }, []);
 
@@ -178,15 +186,18 @@ function EditStory(props) {
 
   return (
     <Box h="full">
-      <Flex justify="space-between" py="3" px="2">
-        <Text>Create Story</Text>
-      </Flex>
       <Box rounded="md" mx="auto" p="2" w={["100%", "100%", "52%"]}>
+        <Text fontSize={["18px", "30px"]} fontWeight="500" pt="4">
+          Let's help others to learn from your Rejection or failure story 📙
+        </Text>
+      </Box>
+
+      <Box rounded="md" mx="auto" px="2" w={["100%", "100%", "52%"]}>
         <Text
           as="h2"
           pl={["", "", "5px"]}
           mb="1.5"
-          fontSize="25px"
+          fontSize={["15px", "20px"]}
           fontWeight="500"
           pt="4"
         >
@@ -209,7 +220,7 @@ function EditStory(props) {
             pl={["", "", "5px"]}
             mb="1.5"
             py="2"
-            fontSize="25px"
+            fontSize={["15px", "20px"]}
             fontWeight="500"
           >
             Share your lessons that changed your Life 👇

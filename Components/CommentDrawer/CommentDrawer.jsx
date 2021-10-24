@@ -17,7 +17,6 @@ import commentService from "../../services/commentService";
 import Comment from "../Comment/Comment";
 
 function CommentDrawer({ closeDrawer, isDrawerOpen, storyId }) {
-  const textEditableRef = useRef();
   const [comments, setComments] = useState([]);
   const [loading, setloading] = useState(false);
   const toast = useToast();
@@ -29,7 +28,6 @@ function CommentDrawer({ closeDrawer, isDrawerOpen, storyId }) {
     try {
       setloading(true);
       const { data } = await commentService.getCommentsByStoryId(storyId);
-      console.log("comments", data);
       setComments(data);
       setloading(false);
     } catch (error) {
@@ -45,7 +43,6 @@ function CommentDrawer({ closeDrawer, isDrawerOpen, storyId }) {
   };
 
   const handelcreateNewComment = async (text) => {
-    console.log("create--", text);
     try {
       if (!currentUser) {
         router.push({
@@ -74,12 +71,11 @@ function CommentDrawer({ closeDrawer, isDrawerOpen, storyId }) {
   };
 
   useEffect(() => {
-    if (textEditableRef.current) {
-      console.log(textEditableRef.current.innerText);
-    }
+    // if (textEditableRef.current) {
+    //   console.log(textEditableRef.current.innerText);
+    // }
     getStoryComments(storyId);
   }, []);
-
   return (
     <Drawer
       isOpen={isDrawerOpen}
@@ -95,6 +91,7 @@ function CommentDrawer({ closeDrawer, isDrawerOpen, storyId }) {
         <DrawerBody>
           <Skeleton isLoaded={!loading}>
             <Comment
+              key="comment"
               comments={comments}
               handelcreateNewComment={handelcreateNewComment}
               commentSubmitting={commentSubmitting}

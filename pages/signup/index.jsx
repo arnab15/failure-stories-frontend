@@ -27,7 +27,7 @@ export default function Signup() {
   const { setCurrentUser, currentUser } = useAuth();
   const router = useRouter();
   if (currentUser) {
-    router.replace("/");
+    router.replace("/home");
     return null;
   }
   const handelFormSubmit = async (values, actions) => {
@@ -42,7 +42,7 @@ export default function Signup() {
         setCurrentUser(userData);
       } catch (error) {
         console.log("error", error);
-        router.replace("/");
+        router.replace("/home");
       }
       actions.setSubmitting(false);
       actions.resetForm();

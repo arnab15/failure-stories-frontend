@@ -23,7 +23,6 @@ export const getFirstImage = (blocks) => {
 
 export const getFirstDescription = (blocks) => {
   const allParagraphs = blocks.filter((block) => block.type === "paragraph");
-  console.log("allparagraph", allParagraphs);
   if (allParagraphs.length === 0) {
     return null;
   }

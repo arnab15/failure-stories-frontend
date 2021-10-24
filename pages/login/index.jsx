@@ -35,7 +35,6 @@ function Login() {
           ...router.query,
         };
         delete allquery.from;
-        console.log("login query----", allquery);
         router.replace(
           {
             pathname: router.query.from,
@@ -48,7 +47,7 @@ function Login() {
         );
         return null;
       }
-      router.replace("/");
+      router.replace("/home");
       return null;
     }
   }
@@ -63,7 +62,7 @@ function Login() {
         setCurrentUser(userData);
       } catch (error) {
         console.log("error", error);
-        router.replace("/");
+        router.replace("/home");
       }
       actions.setSubmitting(false);
       actions.resetForm();

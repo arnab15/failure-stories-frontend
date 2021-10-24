@@ -2,7 +2,8 @@ import apiService from "./apiService";
 
 const endPoint = "/stories";
 const bookmarkStoryEndPoint = "/bookmark-story";
-const createStory = ({ story }) => apiService.post(endPoint, { story });
+const createStory = ({ story, learning }) =>
+  apiService.post(endPoint, { story, learning });
 
 const updateStory = ({ story, storyId, learning }) =>
   apiService.put(`${endPoint}/${storyId}`, { story, learning });

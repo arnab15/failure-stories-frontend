@@ -22,11 +22,16 @@ import { getFirstDescription, getFirstHeader } from "../../utils/helpers";
 import storiesService from "../../services/storiesService";
 
 function StoryHorizontalCard({ story, handelStoryDelete }) {
+  console.log("st", { story, isAvailable: story.story });
   const [modalVisible, setModalVisible] = useState(false);
-  const parsedJsonBlocks = JSON.parse(story.story).blocks;
+  const parsedJsonBlocks = JSON.parse(story.story);
+  console.log("parsed blocks", parsedJsonBlocks);
   const day = new Date(story.updatedAt).getDate();
   const month = new Date(story.updatedAt).toLocaleString("en-IN", {
     month: "short",
+  });
+  console.log({
+    isNull: parsedJsonBlocks ? parsedJsonBlocks.blocks : null,
   });
 
   return (
@@ -39,12 +44,14 @@ function StoryHorizontalCard({ story, handelStoryDelete }) {
       >
         <Box>
           <Text as="h3" fontWeight="medium" noOfLines={1}>
-            {getFirstHeader(parsedJsonBlocks)
-              ? getFirstHeader(parsedJsonBlocks)
+            {parsedJsonBlocks
+              ? getFirstHeader(parsedJsonBlocks.blocks)
+                ? getFirstHeader(parsedJsonBlocks.blocks)
+                : "Untitled Story"
               : "Untitled Story"}
           </Text>
           <Text textColor="gray.500" fontSize="sm" as="p" noOfLines={1}>
-            {getFirstDescription(parsedJsonBlocks)}
+            {parsedJsonBlocks && getFirstDescription(parsedJsonBlocks.blocks)}
           </Text>
         </Box>
       </Link>

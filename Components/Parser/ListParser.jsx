@@ -14,7 +14,6 @@ import React from "react";
 import { decode } from "html-entities";
 
 function ListParser({ block }) {
-  console.log("list---", block);
   if (block && block.type === "list" && block.data.style === "unordered") {
     return (
       <Box my="3">
@@ -26,8 +25,9 @@ function ListParser({ block }) {
                   <Text
                     fontSize={["14px", "20px"]}
                     lineHeight={["24px", "28px"]}
+                    dangerouslySetInnerHTML={{ __html: decode(item) }}
                   >
-                    {decode(item)}
+                    {/* {decode(item)} */}
                   </Text>
                 </ListItem>
               ))}
@@ -48,9 +48,8 @@ function ListParser({ block }) {
                   <Text
                     fontSize={["14px", "20px"]}
                     lineHeight={["24px", "28px"]}
-                  >
-                    {decode(item)}
-                  </Text>
+                    dangerouslySetInnerHTML={{ __html: decode(item) }}
+                  />
                 </ListItem>
               ))}
             </VStack>

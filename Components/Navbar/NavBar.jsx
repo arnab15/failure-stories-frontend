@@ -11,52 +11,44 @@ import {
   MenuButton,
   MenuList,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
   Stack,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import {
-  MoonIcon,
-  SunIcon,
-  HamburgerIcon,
-  CloseIcon,
-  ArrowForwardIcon,
-} from "@chakra-ui/icons";
+import { MoonIcon, SunIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import React from "react";
 
 import NextLink from "next/link";
 import { useAuth } from "../../context/AuthContextProvider";
 
-const Links = [
-  { name: "Home", path: "/" },
-  // { name: "Write a story", path: "/editor" },
-  // { name: "Login", path: "/login" },
-  // { name: "Create an account", path: "/signup" },
-];
+// const Links = [
+//   { name: "Home", path: "/" },
+//   // { name: "Write a story", path: "/editor" },
+//   // { name: "Login", path: "/login" },
+//   // { name: "Create an account", path: "/signup" },
+// ];
 
-// eslint-disable-next-line react/prop-types
-const NavLink = ({ children, path }) => (
-  <Link
-    as={NextLink}
-    px={2}
-    py={1}
-    rounded="md"
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
-    }}
-    href={path}
-  >
-    {children}
-  </Link>
-);
+// // eslint-disable-next-line react/prop-types
+// const NavLink = ({ children, path }) => (
+//   <Link
+//     as={NextLink}
+//     px={2}
+//     py={1}
+//     rounded="md"
+//     _hover={{
+//       textDecoration: "none",
+//       bg: useColorModeValue("gray.200", "gray.700"),
+//     }}
+//     href={path}
+//   >
+//     {children}
+//   </Link>
+// );
 
 // eslint-disable-next-line react/prop-types
 export default function Navbar({ children }) {
   const { currentUser } = useAuth();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -80,7 +72,7 @@ export default function Navbar({ children }) {
           /> */}
           <HStack spacing={8} alignItems="center">
             <NextLink href="/">
-              <Box>Logo</Box>
+              <Box>❌📉📈✔</Box>
             </NextLink>
             {/* <HStack as="nav" spacing={4} display={{ base: "none", md: "flex" }}>
               {Links.map(({ name, path }) => (

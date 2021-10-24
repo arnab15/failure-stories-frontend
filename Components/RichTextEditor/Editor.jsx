@@ -13,34 +13,8 @@ function Editor({ getData, isNew = true, initialData }) {
   const router = useRouter();
 
   const handelEditorDataChange = async () => {
-    if (isNew) {
-      console.log("editor data changed");
-      try {
-        const savedData = await instanceRef.current.save();
-
-        const { data } = await storiesService.createStory({
-          story: savedData,
-        });
-        console.log("daata", data);
-        if (data._id) {
-          router.push(`/story/${data._id}/edit`);
-        }
-        getData(data);
-        console.log(data);
-        return;
-      } catch (error) {
-        console.log("Error occured");
-      }
-    } else {
-      console.log("old data");
-      try {
-        const savedData = await instanceRef.current.save();
-        getData(savedData);
-        return;
-      } catch (error) {
-        console.log("Error old data saving");
-      }
-    }
+    const savedData = await instanceRef.current.save();
+    getData(savedData);
   };
   console.log("initial dta", initialData);
   return (

@@ -30,7 +30,6 @@ function ArticalCard({ story, showBookmarkOption = true }) {
   // const month = new Date(story.updatedAt).toLocaleString("en-IN", {
   //   month: "short",
   // });
-  console.log("storyyyy", story);
   const readingTime = readTime(JSON.parse(story.story).blocks);
 
   const addStoryToBookmark = async (id) => {
@@ -161,6 +160,7 @@ function ArticalCard({ story, showBookmarkOption = true }) {
                 <Flex flexWrap="wrap">
                   {story.tags?.map((tag) => (
                     <Badge
+                      key={tag._id}
                       rounded="sm"
                       colorScheme="gray"
                       fontSize="x-small"

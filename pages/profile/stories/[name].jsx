@@ -125,7 +125,7 @@ function Story(props) {
                 Published
               </Link>
             </Tab>
-            <Tab _focus={{ boxShadow: "none" }}>
+            {/* <Tab _focus={{ boxShadow: "none" }}>
               <Link
                 href={{
                   pathname: "/profile/stories/[name]",
@@ -134,7 +134,7 @@ function Story(props) {
               >
                 Replies
               </Link>
-            </Tab>
+            </Tab> */}
           </TabList>
 
           <TabPanels>
@@ -151,9 +151,6 @@ function Story(props) {
               </Box>
             </TabPanel>
             <TabPanel>
-              {/*             
-            {JSON.stringify(name)}
-            {JSON.stringify(stories)} */}
               <Box>
                 {stories.map((story) => (
                   <StoryHorizontalCard
@@ -163,10 +160,10 @@ function Story(props) {
                 ))}
               </Box>
             </TabPanel>
-            <TabPanel>
+            {/* <TabPanel>
               <p>three!</p>
               {JSON.stringify(name)}
-            </TabPanel>
+            </TabPanel> */}
           </TabPanels>
         </Tabs>
       </Skeleton>

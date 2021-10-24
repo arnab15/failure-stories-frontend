@@ -13,8 +13,9 @@ function ParagraphParser({ block }) {
           fontSize={["16px", "21px"]}
           fontWeight="400"
           lineHeight={["26px", "30px"]}
+          dangerouslySetInnerHTML={{ __html: decode(block.data.text) }}
         >
-          {decode(block.data.text)}
+          {/* {decode(block.data.text)} */}
         </Text>
       )}
     </>

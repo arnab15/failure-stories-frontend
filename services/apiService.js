@@ -34,6 +34,7 @@ axios.interceptors.response.use(
         }
       });
     }
+    localStorage.removeItem("_accessToken");
     return Promise.reject(error);
   }
 );
