@@ -19,8 +19,11 @@ function Logout() {
       await authService.logout();
       localStorage.removeItem("_accessToken");
       setCurrentUser(null);
-      router.replace("/");
+      router.replace("/home");
     } catch (error) {
+      localStorage.removeItem("_accessToken");
+      router.replace("/home");
+      setCurrentUser(null);
       console.log("error logout");
     }
   };

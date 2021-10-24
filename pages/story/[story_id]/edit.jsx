@@ -149,15 +149,6 @@ function EditStory() {
     }
   };
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const { story_id } = router.query;
-  //     if (story_id) {
-  //       getStoryById(story_id);
-  //     }
-  //   }
-  // }, [router]);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const { story_id } = router.query;
@@ -165,6 +156,9 @@ function EditStory() {
         getStoryById(story_id);
       }
     }
+  }, [router]);
+
+  useEffect(() => {
     fetchAllTagsAndSave();
   }, []);
 
