@@ -25,7 +25,6 @@ export default function Home({ data }) {
   const fetchAllTagsAndSave = async () => {
     try {
       const { data: tagData } = await getAllTags();
-      console.log("tags", data);
       setTags(
         tagData.map((tag) => ({
           value: tag._id,

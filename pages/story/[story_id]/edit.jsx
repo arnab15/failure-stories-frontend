@@ -50,12 +50,10 @@ function EditStory(props) {
     story: null,
     learning: null,
   });
-  const [activeStoryTags, setActiveStoryTags] = useState([]);
 
   const fetchAllTagsAndSave = async () => {
     try {
       const { data } = await getAllTags();
-      console.log("tags", data);
       setTags(
         data.map((tag) => ({
           value: tag._id,
@@ -68,9 +66,7 @@ function EditStory(props) {
   };
 
   const handelSubmit = async (values) => {
-    console.log("values", values);
     const tagArrayWithOnlyIds = values.tags.map((tag) => tag.value);
-    console.log({ tagArrayWithOnlyIds });
     try {
       await storiesService.publishStory({
         storyId: storyData._id,
@@ -97,7 +93,6 @@ function EditStory(props) {
   });
 
   const handelDataSubmit = async (data) => {
-    console.log("dss", data);
     try {
       const { story_id } = router.query;
       setCurrentStorydata({
@@ -119,7 +114,6 @@ function EditStory(props) {
   };
 
   const handelLessonLearntDataSubmit = async (learningData) => {
-    console.log("ldata", learningData);
     setCurrentStorydata({
       story: currentStoryData.story ? { ...currentStoryData.story } : null,
       learning: learningData,
@@ -138,21 +132,6 @@ function EditStory(props) {
     }
   };
 
-  const handelStoryPublish = async () => {
-    try {
-      await storiesService.publishStory({
-        storyId: storyData._id,
-        published: true,
-      });
-      setStoryData({
-        ...storyData,
-        published: true,
-      });
-    } catch (error) {
-      console.log("Error Publishing data");
-    }
-  };
-
   const getStoryById = async (storyId) => {
     try {
       const { data } = await storiesService.getStory({
@@ -163,7 +142,6 @@ function EditStory(props) {
         story: JSON.parse(data.story),
         learning: data.learning ? JSON.parse(data.learning) : null,
       });
-      console.log("dataaa", JSON.parse(data.story));
     } catch (error) {
       console.log("error");
     }
@@ -172,7 +150,6 @@ function EditStory(props) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const { story_id } = router.query;
-      console.log("storyId", story_id);
       if (story_id) {
         getStoryById(story_id);
       }
@@ -184,7 +161,6 @@ function EditStory(props) {
   }, []);
 
   useEffect(() => {
-    console.log("sd", storyData);
     if (storyData && storyData.tags) {
       const activeTags = storyData.tags.map((tag) => ({
         value: tag._id,
@@ -261,14 +237,12 @@ function EditStory(props) {
                 closeMenuOnSelect
                 size="sm"
                 onChange={(values) => {
-                  console.log(" selected", values);
                   storyForm.setFieldValue("tags", values, true);
                 }}
                 onBlur={storyForm.handleBlur}
                 // defaultValue={storyData.tags}
                 value={storyForm.values.tags}
               />
-              {console.log("error", storyForm.errors.tags)}
               {(storyForm.errors.tags || storyForm.touched.tags) && (
                 <Text color="red.400">{storyForm.errors.tags}</Text>
                 // <FormErrorMessage>

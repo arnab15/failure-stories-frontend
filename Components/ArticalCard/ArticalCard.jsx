@@ -158,7 +158,7 @@ function ArticalCard({ story, showBookmarkOption = true }) {
                 </Box>
               )}
               <Flex justifyContent="space-between" mt="2.5" mb="1">
-                <Flex>
+                <Flex flexWrap="wrap">
                   {story.tags?.map((tag) => (
                     <Badge
                       rounded="sm"
